@@ -227,23 +227,34 @@ public final class Effector {
 	 */
 	private static byte indexOfClosestColor(Color needle, Color[] haystack) {
 		byte bestIdx = 0;
-		int bestDiff = absoluteDifference(needle, haystack[0]);
+		double bestDiff = perceptualDifference(needle, haystack[0]);
 		for (byte i = 1; i < haystack.length; ++i) {
-			int d = absoluteDifference(needle, haystack[i]);
+			double d = perceptualDifference(needle, haystack[i]);
 			if (d < bestDiff) {
 				bestIdx = i;
 				bestDiff = d;
 			}
 		}
-		if (absoluteDifference(needle, BACKGROUND_COLOR) < bestDiff)
+		if (perceptualDifference(needle, BACKGROUND_COLOR) < bestDiff)
 			return -1;
 		return bestIdx;
 	}
 
-	private static int absoluteDifference(Color a, Color b) {
-		return Math.abs(a.getRed() - b.getRed()) +
-				Math.abs(a.getGreen() - b.getGreen()) +
-				Math.abs(a.getBlue() - b.getBlue());
+	/**
+	 * Returns a measure of the perceptual difference between the given colors
+	 * (lower values are less different).  The metric used is from
+	 * http://www.compuphase.com/cmetric.htm.
+	 * @param a a color
+	 * @param b a color
+	 * @return the perceptual difference between the two colors (lower is less
+	 * different)
+	 */
+	private static double perceptualDifference(Color a, Color b) {
+		double meanRed = ((double)a.getRed() + b.getRed())/2;
+		int dR = a.getRed() - b.getRed();
+		int dG = a.getGreen() - b.getGreen();
+		int dB = a.getBlue() - b.getBlue();
+		return Math.sqrt((2 + meanRed/256)*dR*dR + 4*dG*dG + (2 + (255 - meanRed)/256)*dB*dB);
 	}
 
 	public static void main(String[] args) throws AWTException, IOException, InterruptedException {
