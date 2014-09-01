@@ -105,8 +105,9 @@ public final class Effector {
 		{585, 740},
 		{658, 740}
 	};
+	private static final int[][] COLORS_6 = subdivide(330, 740, 695, 740, 6);
 	private static final int[][][] COLORS = {
-		null, null, COLORS_2, COLORS_3, COLORS_4, COLORS_5
+		null, null, COLORS_2, COLORS_3, COLORS_4, COLORS_5, COLORS_6
 	};
 	private static final Color BACKGROUND_COLOR = new Color(208, 202, 183);
 
@@ -310,6 +311,6 @@ public final class Effector {
 
 	public static void main(String[] args) throws AWTException, IOException, InterruptedException {
 		Effector e = new Effector();
-		e.playWave(5, 4);
+		e.playPuzzle(6, 6);
 	}
 }
