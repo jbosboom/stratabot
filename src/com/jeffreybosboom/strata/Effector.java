@@ -51,14 +51,30 @@ public final class Effector {
 	};
 	private static final int[][][] CELLS_4 = cellPoints(ROWS_4, COLS_4);
 
+	private static final int[][] ROWS_5 = {
+		{328, 368},
+		{364, 404},
+		{400, 440},
+		{436, 476},
+		{470, 512},
+	};
+	private static final int[][] COLS_5 = {
+		{552, 512},
+		{586, 476},
+		{624, 440},
+		{658, 404},
+		{696, 368},
+	};
+	private static final int[][][] CELLS_5 = cellPoints(ROWS_5, COLS_5);
+
 	private static final int[][][] ROWS = {
-		null, null, null, ROWS_3, ROWS_4
+		null, null, null, ROWS_3, ROWS_4, ROWS_5
 	};
 	private static final int[][][] COLS = {
-		null, null, null, COLS_3, COLS_4
+		null, null, null, COLS_3, COLS_4, COLS_5
 	};
 	private static final int[][][][] CELLS = {
-		null, null, null, CELLS_3, CELLS_4
+		null, null, null, CELLS_3, CELLS_4, CELLS_5
 	};
 
 	private static final int[][] COLORS_2 = {
@@ -259,6 +275,6 @@ public final class Effector {
 
 	public static void main(String[] args) throws AWTException, IOException, InterruptedException {
 		Effector e = new Effector();
-		e.playWave(4, 4);
+		e.playWave(5, 4);
 	}
 }
