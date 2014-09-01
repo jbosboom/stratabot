@@ -123,10 +123,11 @@ public final class Effector {
 	}
 
 	public void playPuzzle(int sideLength, Color[] colors) {
+		BufferedImage screenshot = robot.createScreenCapture(strataRect);
 		byte[][] puzzleBytes = new byte[sideLength][sideLength];
 		for (int row = 0; row < sideLength; ++row)
 			for (int col = 0; col < sideLength; ++col) {
-				Color c = getPixelColor(CELLS[sideLength][row][col]);
+				Color c = getPixelColor(CELLS[sideLength][row][col], screenshot);
 				puzzleBytes[row][col] = indexOfClosestColor(c, colors);
 			}
 
@@ -147,6 +148,8 @@ public final class Effector {
 
 	public void playWave(int sideLength, int numColors) {
 		//assumes beginning at first puzzle
+		//We could share the screenshot between getting colors and playing the
+		//first puzzle, but that's probably not worth it.
 		int puzzles = sideLength*sideLength;
 		Color[] colors = getPuzzleColors(numColors);
 		while (puzzles-- > 0) {
@@ -158,31 +161,44 @@ public final class Effector {
 	}
 
 	private Color[] getPuzzleColors(int numColors) {
+		BufferedImage screenshot = robot.createScreenCapture(strataRect);
 		Color[] colors = new Color[numColors];
 		//Initially the first color is selected (saturated), so we get the other
 		//colors first, then click another.
 		for (int i = 1; i < numColors; ++i)
-			colors[i] = getPixelColor(COLORS[numColors][i]);
+			colors[i] = getPixelColor(COLORS[numColors][i], screenshot);
 		click(COLORS[numColors][1]);
 		colors[0] = getPixelColor(COLORS[numColors][0]);
 		click(COLORS[numColors][0]);
 		return colors;
 	}
 
-//	private static final int[][] NEIGHBORHOOD = {
-//		{-1, -1}, {-1, 0}, {-1, 1},
-//		{0, -1}, {0, 0}, {0, 1},
-//		{1, -1}, {1, 0}, {1, 1},
-//	};
 	private static final int[][] NEIGHBORHOOD = {
-		{0, 0}
+		{-1, -1}, {-1, 0}, {-1, 1},
+		{0, -1}, {0, 0}, {0, 1},
+		{1, -1}, {1, 0}, {1, 1},
 	};
+//	private static final int[][] NEIGHBORHOOD = {
+//		{0, 0}
+//	};
 	private Color getPixelColor(int[] xy) {
 		assert xy.length == 2;
 		int r = 0, g = 0, b = 0;
 		for (int[] adj : NEIGHBORHOOD) {
 			Color c = robot.getPixelColor(xy[0] + strataRect.getLocation().x + adj[0],
 					xy[1] + strataRect.getLocation().y + adj[1]);
+			r += c.getRed();
+			g += c.getGreen();
+			b += c.getBlue();
+		}
+		return new Color(r/NEIGHBORHOOD.length, g/NEIGHBORHOOD.length, b/NEIGHBORHOOD.length);
+	}
+
+	private Color getPixelColor(int[] xy, BufferedImage screenshot) {
+		assert xy.length == 2;
+		int r = 0, g = 0, b = 0;
+		for (int[] adj : NEIGHBORHOOD) {
+			Color c = new Color(screenshot.getRGB(xy[0] + adj[0], xy[1] + adj[1]));
 			r += c.getRed();
 			g += c.getGreen();
 			b += c.getBlue();
