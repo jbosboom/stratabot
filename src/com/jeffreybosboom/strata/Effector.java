@@ -156,7 +156,7 @@ public final class Effector {
 			playPuzzle(sideLength, colors);
 			sleepUninterruptibly(500, TimeUnit.MILLISECONDS);
 			click(new int[]{510, 622});
-			sleepUninterruptibly(2000, TimeUnit.MILLISECONDS);
+			sleepUninterruptibly(3000, TimeUnit.MILLISECONDS);
 		}
 	}
 
