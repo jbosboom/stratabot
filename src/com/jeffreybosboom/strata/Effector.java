@@ -80,7 +80,7 @@ public final class Effector {
 	private final Rectangle strataRect;
 	public Effector() throws AWTException, IOException, InterruptedException {
 		this.robot = new Robot();
-		robot.setAutoDelay(300);
+		robot.setAutoDelay(200);
 		ProcessBuilder pb = new ProcessBuilder("cmdow.exe strata /B /P".split(" "));
 		Process p = pb.start();
 		p.waitFor();
