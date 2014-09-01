@@ -50,6 +50,14 @@ public final class Solver {
 		return Optional.empty();
 	}
 
+	public int puzzlesExamined() {
+		return cache.size();
+	}
+
+	public int backtracks() {
+		return (int)cache.values().stream().filter(o -> !o.isPresent()).count();
+	}
+
 	public static void main(String[] args) {
 		String string = "0 00";
 		Puzzle puzzle = Puzzle.fromString(string);

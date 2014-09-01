@@ -107,10 +107,10 @@ public final class Effector {
 
 		Puzzle puzzle = Puzzle.fromArray(puzzleBytes);
 		System.out.println(puzzle);
-		Solution solution = new Solver().solve(puzzle).get();
+		Solver solver = new Solver();
+		Solution solution = solver.solve(puzzle).get().complete(puzzle);
 		System.out.println(solution);
-		solution = solution.complete(puzzle);
-		System.out.println(solution);
+		System.out.format("%d states examined, %d backtracks%n", solver.puzzlesExamined(), solver.backtracks());
 
 		for (int i = 0; i < solution.size(); ++i) {
 			click(COLORS_2[solution.color(i)]);
