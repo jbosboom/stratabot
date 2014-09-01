@@ -1,7 +1,6 @@
 package com.jeffreybosboom.strata;
 
 import com.google.common.io.CharStreams;
-import com.google.common.util.concurrent.Uninterruptibles;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -16,7 +15,6 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 /**
@@ -103,7 +101,6 @@ public final class Effector {
 		for (int i = 1; i < numColors; ++i)
 			colors[i] = getPixelColor(COLORS[numColors][i]);
 		click(COLORS[numColors][1]);
-//		Uninterruptibles.sleepUninterruptibly(300, TimeUnit.MILLISECONDS);
 		colors[0] = getPixelColor(COLORS[numColors][0]);
 
 		byte[][] puzzleBytes = new byte[sideLength][sideLength];
