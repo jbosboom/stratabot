@@ -1,6 +1,7 @@
 package com.jeffreybosboom.strata;
 
 import com.google.common.io.CharStreams;
+import com.google.common.math.IntMath;
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import java.awt.AWTException;
 import java.awt.Color;
@@ -222,14 +223,15 @@ public final class Effector {
 		return colors;
 	}
 
-	private static final int[][] NEIGHBORHOOD = {
-		{-1, -1}, {-1, 0}, {-1, 1},
-		{0, -1}, {0, 0}, {0, 1},
-		{1, -1}, {1, 0}, {1, 1},
-	};
-//	private static final int[][] NEIGHBORHOOD = {
-//		{0, 0}
-//	};
+	private static int[][] mooreNeighborhood(int n) {
+		int[][] retval = new int[IntMath.pow(2*n+1, 2)][];
+		int idx = 0;
+		for (int x = -n; x < n+1; ++x)
+			for (int y = -n; y < n+1; ++y)
+				retval[idx++] = new int[]{x, y};
+		return retval;
+	}
+	private static final int[][] NEIGHBORHOOD = mooreNeighborhood(2);
 	private Color getPixelColor(int[] xy) {
 		assert xy.length == 2;
 		int r = 0, g = 0, b = 0;
