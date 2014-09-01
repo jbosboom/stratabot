@@ -103,4 +103,9 @@ public final class Puzzle {
 		hash = 13 * hash + Arrays.deepHashCode(this.board);
 		return hash;
 	}
+
+	@Override
+	public String toString() {
+		return Arrays.deepToString(board);
+	}
 }
