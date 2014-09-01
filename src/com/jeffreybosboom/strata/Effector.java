@@ -68,14 +68,18 @@ public final class Effector {
 	};
 	private static final int[][][] CELLS_5 = cellPoints(ROWS_5, COLS_5);
 
+	private static final int[][] ROWS_6 = subdivide(325, 362, 477, 514, 6);
+	private static final int[][] COLS_6 = subdivide(547, 514, 699, 362, 6);
+	private static final int[][][] CELLS_6 = cellPoints(ROWS_6, COLS_6);
+
 	private static final int[][][] ROWS = {
-		null, null, null, ROWS_3, ROWS_4, ROWS_5
+		null, null, null, ROWS_3, ROWS_4, ROWS_5, ROWS_6
 	};
 	private static final int[][][] COLS = {
-		null, null, null, COLS_3, COLS_4, COLS_5
+		null, null, null, COLS_3, COLS_4, COLS_5, COLS_6
 	};
 	private static final int[][][][] CELLS = {
-		null, null, null, CELLS_3, CELLS_4, CELLS_5
+		null, null, null, CELLS_3, CELLS_4, CELLS_5, CELLS_6
 	};
 
 	private static final int[][] COLORS_2 = {
@@ -104,6 +108,26 @@ public final class Effector {
 		null, null, COLORS_2, COLORS_3, COLORS_4, COLORS_5
 	};
 	private static final Color BACKGROUND_COLOR = new Color(208, 202, 183);
+
+	/**
+	 * Divides the line segment between (xa, ya) and (xb, yb) into points-1
+	 * line segments of approximately equal length, returning the points
+	 * defining these segments.
+	 * @param xa the x coordinate of the first point
+	 * @param ya the y coordinate of the first point
+	 * @param xb the x coordinate of the second point
+	 * @param yb the y coordinate of the second point
+	 * @param points the number of points to return
+	 * @return an array of points defining the divided line segments
+	 */
+	private static int[][] subdivide(int xa, int ya, int xb, int yb, int points) {
+		double x = xa, y = ya;
+		double xIncr = (xb - xa)/(points-1), yIncr = (yb - ya)/(points-1);
+		int[][] retval = new int[points][];
+		for (int i = 0; i < retval.length; ++i, x += xIncr, y += yIncr)
+			retval[i] = new int[]{(int)Math.round(x), (int)Math.round(y)};
+		return retval;
+	}
 
 	private static int[][][] cellPoints(int[][] rowSelectors, int[][] colSelectors) {
 		int[][][] retval = new int[rowSelectors.length][colSelectors.length][2];
