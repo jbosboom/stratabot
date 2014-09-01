@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -24,11 +23,6 @@ import javax.imageio.ImageIO;
  */
 public final class Effector {
 	private static final int WIDTH = 1024, HEIGHT = 768;
-	private static final int[][][] CELLS_3 = {
-		{{406, 327}, {460, 275}, {515, 222}},
-		{{460, 379}, {515, 327}, {569, 272}},
-		{{513, 435}, {571, 383}, {621, 328}}
-	};
 	private static final int[][] ROWS_3 = {
 		{342, 390},
 		{396, 444},
@@ -39,7 +33,7 @@ public final class Effector {
 		{629, 444},
 		{682, 390},
 	};
-//	private static final int[][][] CELLS_3 = cellPoints(ROWS_3, COLS_3);
+	private static final int[][][] CELLS_3 = cellPoints(ROWS_3, COLS_3);
 
 	private static final int[][] COLORS_2 = {
 		{476, 740},
@@ -61,20 +55,18 @@ public final class Effector {
 	};
 	private static final Color BACKGROUND_COLOR = new Color(208, 202, 183);
 
-//	private static int[][][] cellPoints(int[][] rowSelectors, int[][] colSelectors) {
-//		int[][][] retval = new int[rowSelectors.length][colSelectors.length][2];
-//		for (int row = 0; row < rowSelectors.length; ++row)
-//			for (int col = 0; col < colSelectors.length; ++col) {
-//				int[] r = rowSelectors[row], c = colSelectors[col];
-//				//row line has slope -1, col line has slope 1 (y grows downward)
-//				Line2D.Double rowLine = new Line2D.Double(r[0], r[1], r[0]+1, r[1]-1);
-//				Line2D.Double colLine = new Line2D.Double(c[0], c[1], c[0]+1, c[1]+1);
-//				rowLine.
-//				retval[row][col][0] = (rowSelectors[row][0] + colSelectors[col][0])/2;
-//				retval[row][col][1] = rowSelectors[row][1] - (rowSelectors[row][0] - retval[row][col][0]);
-//			}
-//		return retval;
-//	}
+	private static int[][][] cellPoints(int[][] rowSelectors, int[][] colSelectors) {
+		int[][][] retval = new int[rowSelectors.length][colSelectors.length][2];
+		for (int row = 0; row < rowSelectors.length; ++row)
+			for (int col = 0; col < colSelectors.length; ++col) {
+				int[] r = rowSelectors[row], c = colSelectors[col];
+				//row line has slope -1, col line has slope 1 (y grows downward)
+				int br = r[0] + r[1], bc = -c[0] + c[1];
+				retval[row][col][0] = (br - bc)/2;
+				retval[row][col][1] = retval[row][col][0] + bc;
+			}
+		return retval;
+	}
 
 	private final Robot robot;
 	private final Rectangle strataRect;
