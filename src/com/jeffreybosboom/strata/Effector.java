@@ -27,46 +27,16 @@ import javax.imageio.ImageIO;
 public final class Effector {
 	//<editor-fold defaultstate="collapsed" desc="Constants">
 	private static final int WIDTH = 1024, HEIGHT = 768;
-	private static final int[][] ROWS_3 = {
-		{342, 390},
-		{396, 444},
-		{450, 498},
-	};
-	private static final int[][] COLS_3 = {
-		{576, 498},
-		{629, 444},
-		{682, 390},
-	};
+	private static final int[][] ROWS_3 = subdivide(342, 390, 450, 498, 3);
+	private static final int[][] COLS_3 = subdivide(576, 498, 682, 390, 3);
 	private static final int[][][] CELLS_3 = cellPoints(ROWS_3, COLS_3);
 
-	private static final int[][] ROWS_4 = {
-		{334, 378},
-		{376, 420},
-		{418, 464},
-		{462, 507},
-	};
-	private static final int[][] COLS_4 = {
-		{560, 506},
-		{604, 463},
-		{648, 420},
-		{690, 378},
-	};
+	private static final int[][] ROWS_4 = subdivide(334, 378, 462, 507, 4);
+	private static final int[][] COLS_4 = subdivide(560, 506, 690, 378, 4);
 	private static final int[][][] CELLS_4 = cellPoints(ROWS_4, COLS_4);
 
-	private static final int[][] ROWS_5 = {
-		{328, 368},
-		{364, 404},
-		{400, 440},
-		{436, 476},
-		{470, 512},
-	};
-	private static final int[][] COLS_5 = {
-		{552, 512},
-		{586, 476},
-		{624, 440},
-		{658, 404},
-		{696, 368},
-	};
+	private static final int[][] ROWS_5 = subdivide(328, 368, 470, 512, 5);
+	private static final int[][] COLS_5 = subdivide(552, 512, 696, 368, 5);
 	private static final int[][][] CELLS_5 = cellPoints(ROWS_5, COLS_5);
 
 	private static final int[][] ROWS_6 = subdivide(325, 362, 477, 514, 6);
@@ -87,24 +57,9 @@ public final class Effector {
 		{476, 740},
 		{550, 740}
 	};
-	private static final int[][] COLORS_3 = {
-		{440, 740},
-		{510, 740},
-		{585, 740}
-	};
-	private static final int[][] COLORS_4 = {
-		{400, 740},
-		{475, 740},
-		{550, 740},
-		{620, 740}
-	};
-	private static final int[][] COLORS_5 = {
-		{366, 740},
-		{439, 740},
-		{512, 740},
-		{585, 740},
-		{658, 740}
-	};
+	private static final int[][] COLORS_3 = subdivide(440, 740, 585, 740, 3);
+	private static final int[][] COLORS_4 = subdivide(400, 740, 620, 740, 4);
+	private static final int[][] COLORS_5 = subdivide(366, 740, 658, 740, 5);
 	private static final int[][] COLORS_6 = subdivide(330, 740, 695, 740, 6);
 	private static final int[][][] COLORS = {
 		null, null, COLORS_2, COLORS_3, COLORS_4, COLORS_5, COLORS_6
