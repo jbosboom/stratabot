@@ -1,6 +1,7 @@
 package com.jeffreybosboom.strata;
 
 import com.google.common.io.CharStreams;
+import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -14,6 +15,7 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 /**
@@ -117,14 +119,10 @@ public final class Effector {
 	}
 
 	public void playPuzzle(int sideLength, int numColors) {
-		Color[] colors = new Color[numColors];
-		//Initially the first color is selected (saturated), so we get the other
-		//colors first, then click another.
-		for (int i = 1; i < numColors; ++i)
-			colors[i] = getPixelColor(COLORS[numColors][i]);
-		click(COLORS[numColors][1]);
-		colors[0] = getPixelColor(COLORS[numColors][0]);
+		playPuzzle(sideLength, getPuzzleColors(numColors));
+	}
 
+	public void playPuzzle(int sideLength, Color[] colors) {
 		byte[][] puzzleBytes = new byte[sideLength][sideLength];
 		for (int row = 0; row < sideLength; ++row)
 			for (int col = 0; col < sideLength; ++col) {
@@ -139,12 +137,36 @@ public final class Effector {
 		System.out.println(solution);
 		System.out.format("%d states examined, %d backtracks%n", solver.puzzlesExamined(), solver.backtracks());
 
-		byte currentColor = 1; //we clicked it above
+		byte currentColor = 0;
 		for (int i = 0; i < solution.size(); ++i) {
 			if (solution.color(i) != currentColor)
-				click(COLORS[numColors][(currentColor = solution.color(i))]);
+				click(COLORS[colors.length][(currentColor = solution.color(i))]);
 			click((solution.isRow(i) ? ROWS[sideLength] : COLS[sideLength])[solution.ribbonIndex(i)]);
 		}
+	}
+
+	public void playWave(int sideLength, int numColors) {
+		//assumes beginning at first puzzle
+		int puzzles = sideLength*sideLength;
+		Color[] colors = getPuzzleColors(numColors);
+		while (puzzles-- > 0) {
+			playPuzzle(sideLength, colors);
+			sleepUninterruptibly(500, TimeUnit.MILLISECONDS);
+			click(new int[]{510, 622});
+			sleepUninterruptibly(2000, TimeUnit.MILLISECONDS);
+		}
+	}
+
+	private Color[] getPuzzleColors(int numColors) {
+		Color[] colors = new Color[numColors];
+		//Initially the first color is selected (saturated), so we get the other
+		//colors first, then click another.
+		for (int i = 1; i < numColors; ++i)
+			colors[i] = getPixelColor(COLORS[numColors][i]);
+		click(COLORS[numColors][1]);
+		colors[0] = getPixelColor(COLORS[numColors][0]);
+		click(COLORS[numColors][0]);
+		return colors;
 	}
 
 //	private static final int[][] NEIGHBORHOOD = {
@@ -210,6 +232,6 @@ public final class Effector {
 
 	public static void main(String[] args) throws AWTException, IOException, InterruptedException {
 		Effector e = new Effector();
-		e.playPuzzle(4, 3);
+		e.playWave(4, 4);
 	}
 }
