@@ -117,8 +117,10 @@ public final class Effector {
 		System.out.println(solution);
 		System.out.format("%d states examined, %d backtracks%n", solver.puzzlesExamined(), solver.backtracks());
 
+		byte currentColor = 1; //we clicked it above
 		for (int i = 0; i < solution.size(); ++i) {
-			click(COLORS[numColors][solution.color(i)]);
+			if (solution.color(i) != currentColor)
+				click(COLORS[numColors][(currentColor = solution.color(i))]);
 			click((solution.isRow(i) ? ROWS_3 : COLS_3)[solution.ribbonIndex(i)]);
 		}
 	}
