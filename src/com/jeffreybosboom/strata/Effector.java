@@ -47,6 +47,14 @@ public final class Effector {
 		{476, 740},
 		{550, 740}
 	};
+	private static final int[][] COLORS_3 = {
+		{440, 740},
+		{510, 740},
+		{585, 740}
+	};
+	private static final int[][][] COLORS = {
+		null, null, COLORS_2, COLORS_3
+	};
 	private static final Color BACKGROUND_COLOR = new Color(208, 202, 183);
 
 //	private static int[][][] cellPoints(int[][] rowSelectors, int[][] colSelectors) {
@@ -93,10 +101,10 @@ public final class Effector {
 		//Initially the first color is selected (saturated), so we get the other
 		//colors first, then click another.
 		for (int i = 1; i < numColors; ++i)
-			colors[i] = getPixelColor(COLORS_2[i]);
-		click(COLORS_2[1]);
+			colors[i] = getPixelColor(COLORS[numColors][i]);
+		click(COLORS[numColors][1]);
 //		Uninterruptibles.sleepUninterruptibly(300, TimeUnit.MILLISECONDS);
-		colors[0] = getPixelColor(COLORS_2[0]);
+		colors[0] = getPixelColor(COLORS[numColors][0]);
 
 		byte[][] puzzleBytes = new byte[sideLength][sideLength];
 		for (int row = 0; row < sideLength; ++row)
@@ -113,7 +121,7 @@ public final class Effector {
 		System.out.format("%d states examined, %d backtracks%n", solver.puzzlesExamined(), solver.backtracks());
 
 		for (int i = 0; i < solution.size(); ++i) {
-			click(COLORS_2[solution.color(i)]);
+			click(COLORS[numColors][solution.color(i)]);
 			click((solution.isRow(i) ? ROWS_3 : COLS_3)[solution.ribbonIndex(i)]);
 		}
 	}
@@ -146,7 +154,7 @@ public final class Effector {
 		byte bestIdx = 0;
 		int bestDiff = absoluteDifference(needle, haystack[0]);
 		for (byte i = 1; i < haystack.length; ++i) {
-			int d = absoluteDifference(needle, haystack[1]);
+			int d = absoluteDifference(needle, haystack[i]);
 			if (d < bestDiff) {
 				bestIdx = i;
 				bestDiff = d;
@@ -165,6 +173,6 @@ public final class Effector {
 
 	public static void main(String[] args) throws AWTException, IOException, InterruptedException {
 		Effector e = new Effector();
-		e.playPuzzle(3, 2);
+		e.playPuzzle(3, 3);
 	}
 }
