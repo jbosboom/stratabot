@@ -54,6 +54,34 @@ public final class Solution {
 		return new Solution(newOrder, newColors);
 	}
 
+	/**
+	 * Returns a complete solution for the given puzzle; that is, a solution
+	 * containing all rows and columns in the given puzzle, even those not
+	 * required to meet constraints.
+	 * @param p a puzzle
+	 * @return a complete solution to the given puzzle
+	 */
+	public Solution complete(Puzzle p) {
+		byte[] newOrder = new byte[p.rows()+p.cols()];
+		byte[] newColors = new byte[p.rows()+p.cols()];
+		int idx = 0;
+		//add anything missing
+		for (byte row = 0; row < p.rows(); ++row)
+			if (!Bytes.contains(order, row)) {
+				newOrder[idx] = row;
+				newColors[idx++] = 0;
+			}
+		for (byte col = 0; col < p.cols(); ++col)
+			if (!Bytes.contains(order, (byte)(col | 128))) {
+				newOrder[idx] = (byte)(col | 128);
+				newColors[idx++] = 0;
+			}
+		//replay our contents in order
+		System.arraycopy(order, 0, newOrder, idx, order.length);
+		System.arraycopy(colors, 0, newColors, idx, colors.length);
+		return new Solution(newOrder, newColors);
+	}
+
 	public int size() {
 		return order.length;
 	}
