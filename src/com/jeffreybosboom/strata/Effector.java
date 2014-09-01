@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
  * @since 8/31/2014
  */
 public final class Effector {
+	//<editor-fold defaultstate="collapsed" desc="Constants">
 	private static final int WIDTH = 1024, HEIGHT = 768;
 	private static final int[][] ROWS_3 = {
 		{342, 390},
@@ -92,8 +93,15 @@ public final class Effector {
 		{550, 740},
 		{620, 740}
 	};
+	private static final int[][] COLORS_5 = {
+		{366, 740},
+		{439, 740},
+		{512, 740},
+		{585, 740},
+		{658, 740}
+	};
 	private static final int[][][] COLORS = {
-		null, null, COLORS_2, COLORS_3, COLORS_4
+		null, null, COLORS_2, COLORS_3, COLORS_4, COLORS_5
 	};
 	private static final Color BACKGROUND_COLOR = new Color(208, 202, 183);
 
@@ -109,6 +117,7 @@ public final class Effector {
 			}
 		return retval;
 	}
+	//</editor-fold>
 
 	private final Robot robot;
 	private final Rectangle strataRect;
