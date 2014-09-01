@@ -131,9 +131,25 @@ public final class Effector {
 		}
 	}
 
+//	private static final int[][] NEIGHBORHOOD = {
+//		{-1, -1}, {-1, 0}, {-1, 1},
+//		{0, -1}, {0, 0}, {0, 1},
+//		{1, -1}, {1, 0}, {1, 1},
+//	};
+	private static final int[][] NEIGHBORHOOD = {
+		{0, 0}
+	};
 	private Color getPixelColor(int[] xy) {
 		assert xy.length == 2;
-		return robot.getPixelColor(xy[0] + strataRect.getLocation().x, xy[1] + strataRect.getLocation().y);
+		int r = 0, g = 0, b = 0;
+		for (int[] adj : NEIGHBORHOOD) {
+			Color c = robot.getPixelColor(xy[0] + strataRect.getLocation().x + adj[0],
+					xy[1] + strataRect.getLocation().y + adj[1]);
+			r += c.getRed();
+			g += c.getGreen();
+			b += c.getBlue();
+		}
+		return new Color(r/NEIGHBORHOOD.length, g/NEIGHBORHOOD.length, b/NEIGHBORHOOD.length);
 	}
 
 	/**
