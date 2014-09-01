@@ -35,6 +35,30 @@ public final class Effector {
 	};
 	private static final int[][][] CELLS_3 = cellPoints(ROWS_3, COLS_3);
 
+	private static final int[][] ROWS_4 = {
+		{334, 378},
+		{376, 420},
+		{418, 464},
+		{462, 507},
+	};
+	private static final int[][] COLS_4 = {
+		{560, 506},
+		{604, 463},
+		{648, 420},
+		{690, 378},
+	};
+	private static final int[][][] CELLS_4 = cellPoints(ROWS_4, COLS_4);
+
+	private static final int[][][] ROWS = {
+		null, null, null, ROWS_3, ROWS_4
+	};
+	private static final int[][][] COLS = {
+		null, null, null, COLS_3, COLS_4
+	};
+	private static final int[][][][] CELLS = {
+		null, null, null, CELLS_3, CELLS_4
+	};
+
 	private static final int[][] COLORS_2 = {
 		{476, 740},
 		{550, 740}
@@ -104,7 +128,7 @@ public final class Effector {
 		byte[][] puzzleBytes = new byte[sideLength][sideLength];
 		for (int row = 0; row < sideLength; ++row)
 			for (int col = 0; col < sideLength; ++col) {
-				Color c = getPixelColor(CELLS_3[row][col]);
+				Color c = getPixelColor(CELLS[sideLength][row][col]);
 				puzzleBytes[row][col] = indexOfClosestColor(c, colors);
 			}
 
@@ -119,7 +143,7 @@ public final class Effector {
 		for (int i = 0; i < solution.size(); ++i) {
 			if (solution.color(i) != currentColor)
 				click(COLORS[numColors][(currentColor = solution.color(i))]);
-			click((solution.isRow(i) ? ROWS_3 : COLS_3)[solution.ribbonIndex(i)]);
+			click((solution.isRow(i) ? ROWS[sideLength] : COLS[sideLength])[solution.ribbonIndex(i)]);
 		}
 	}
 
@@ -186,6 +210,6 @@ public final class Effector {
 
 	public static void main(String[] args) throws AWTException, IOException, InterruptedException {
 		Effector e = new Effector();
-		e.playPuzzle(3, 4);
+		e.playPuzzle(4, 3);
 	}
 }
