@@ -33,6 +33,7 @@ public final class Puzzle {
 
 	public static Puzzle fromString(String str) {
 		//TODO: assuming 10 color max
+		//TODO: this is not an inverse of toString()!
 		String[] rows = str.split("\n");
 		byte[][] board = new byte[rows.length][rows[0].length()];
 		for (int i = 0; i < rows.length; ++i)

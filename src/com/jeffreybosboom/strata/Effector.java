@@ -124,11 +124,18 @@ public final class Effector {
 		this.strataRect = new Rectangle(windowLeft + borderWidth, windowTop + titleBarHeight, WIDTH, HEIGHT);
 	}
 
+	/**
+	 * Plays a puzzle with the given side length and number of colors.  Assumes
+	 * Strata is at the puzzle screen with all animations (including the subtle
+	 * fade on the color selectors) completed.
+	 * @param sideLength the puzzle side length
+	 * @param numColors the number of colors in the puzzle
+	 */
 	public void playPuzzle(int sideLength, int numColors) {
 		playPuzzle(sideLength, getPuzzleColors(numColors));
 	}
 
-	public void playPuzzle(int sideLength, Color[] colors) {
+	private void playPuzzle(int sideLength, Color[] colors) {
 		BufferedImage screenshot = robot.createScreenCapture(strataRect);
 		byte[][] puzzleBytes = new byte[sideLength][sideLength];
 		for (int row = 0; row < sideLength; ++row)
@@ -152,6 +159,13 @@ public final class Effector {
 		}
 	}
 
+	/**
+	 * Plays a "wave" (set) of puzzles.  Assumes Strata is at the first puzzle
+	 * screen with all animations (including the subtle	fade on the color
+	 * selectors) completed.
+	 * @param sideLength the puzzles' side length
+	 * @param numColors the number of colors in the puzzles
+	 */
 	public void playWave(int sideLength, int numColors) {
 		//assumes beginning at first puzzle
 		//We could share the screenshot between getting colors and playing the

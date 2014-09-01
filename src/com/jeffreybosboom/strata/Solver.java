@@ -8,7 +8,11 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * Solves Puzzles.  Solver is not thread-safe.  Solvers may be reused, but doing
+ * so will retain memory.
  *
+ * It turns out that the solver will not backtrack iff the puzzle has no
+ * solution, so the cache is not necessary. (TODO)
  * @author Jeffrey Bosboom <jbosboom@csail.mit.edu>
  * @since 8/30/2014
  */
