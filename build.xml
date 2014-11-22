@@ -24,6 +24,24 @@
 		<mkdir dir="lib/doc"/>
 		<mkdir dir="lib/src"/>
 
+		<!-- use a local windowlib jar if available -->
+		<copy file="../windowlib/build/jar/windowlib.jar"
+			  tofile="lib/windowlib.jar"
+			  failonerror="false" quiet="true" />
+		<get src="https://github.com/jbosboom/windowlib/releases/download/20141121/windowlib.jar"
+			 dest="lib/windowlib.jar"
+			 skipexisting="true"/>
+
+		<get src="http://search.maven.org/remotecontent?filepath=com/nativelibs4java/bridj/0.6.2/bridj-0.6.2-c-only.jar"
+			 dest="lib/bridj.jar"
+			 skipexisting="true"/>
+		<get src="http://search.maven.org/remotecontent?filepath=com/nativelibs4java/bridj/0.6.2/bridj-0.6.2-javadoc.jar"
+			 dest="lib/doc/bridj-doc.jar"
+			 skipexisting="true"/>
+		<get src="http://search.maven.org/remotecontent?filepath=com/nativelibs4java/bridj/0.6.2/bridj-0.6.2-sources.jar"
+			 dest="lib/src/bridj-src.jar"
+			 skipexisting="true"/>
+
 		<get src="http://search.maven.org/remotecontent?filepath=com/google/guava/guava/17.0/guava-17.0.jar"
 			 dest="lib/guava.jar"
 			 skipexisting="true"/>

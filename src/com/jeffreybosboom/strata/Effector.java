@@ -18,9 +18,9 @@
 
 package com.jeffreybosboom.strata;
 
-import com.google.common.io.CharStreams;
 import com.google.common.math.IntMath;
 import static com.google.common.util.concurrent.Uninterruptibles.sleepUninterruptibly;
+import com.jeffreybosboom.windowlib.Window;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -28,10 +28,7 @@ import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -120,23 +117,10 @@ public final class Effector {
 	public Effector() throws AWTException, IOException, InterruptedException {
 		this.robot = new Robot();
 		robot.setAutoDelay(200);
-		ProcessBuilder pb = new ProcessBuilder("cmdow.exe strata /B /P".split(" "));
-		Process p = pb.start();
-		p.waitFor();
-		Reader r = new InputStreamReader(p.getInputStream());
-		List<String> readLines = CharStreams.readLines(r);
-		if (readLines.size() != 1)
-			throw new RuntimeException(readLines.toString());
-		String[] fields = readLines.get(0).trim().split("\\h+");
-		System.out.println(Arrays.toString(fields));
-		//These include window decorations, whose size varies by computer.
-		int windowLeft = Integer.parseInt(fields[fields.length-6]);
-		int windowTop = Integer.parseInt(fields[fields.length-5]);
-		int windowWidth = Integer.parseInt(fields[fields.length-4]);
-		int windowHeight = Integer.parseInt(fields[fields.length-3]);
-		int borderWidth = (windowWidth - WIDTH)/2;
-		int titleBarHeight = windowHeight - HEIGHT - borderWidth;
-		this.strataRect = new Rectangle(windowLeft + borderWidth, windowTop + titleBarHeight, WIDTH, HEIGHT);
+		Window wnd = Window.findWindowByTitle("Strata");
+		wnd.setInForeground();
+		wnd.bringToTop();
+		this.strataRect = wnd.getClientAreaScreenCoordinates();
 	}
 
 	/**

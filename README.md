@@ -34,8 +34,3 @@ License
 -------
 
 stratabot is licensed under GPLv3+.
-
-stratabot uses [CMDOW](http://www.commandline.co.uk/cmdow/) to find the Strata
-window.  CMDOW is copyright 2001-2004 Ritchie Lawrence (at least according to
-the .exe version resources).  stratabot uses CMDOW "at arm's length", so its
-source is not included.
